@@ -1,0 +1,31 @@
+{
+  "name": "url_shortener_service",
+  "version": "1.0.0",
+  "description": "API to create short urls",
+  "author": {
+    "name": "William N",
+    "url": "https://twn-wi11i4m.github.io"
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/twn-wi11i4m/url_shortener_service"
+  },
+  "scripts": {
+    "start": "node index",
+    "dev": "nodemon index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "dependencies": {
+    "config": "^3.3.12",
+    "express": "^4.21.2",
+    "pg": "^8.13.1",
+    "shortid": "^2.2.16",
+    "valid-url": "^1.0.9"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  },
+  "license": "MIT"
+}

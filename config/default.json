@@ -1,0 +1,10 @@
+{
+    "postgreSQL": {
+      "database": "",
+      "host": "",
+      "port": 5432,
+      "user": "",
+      "password": ""
+    },
+    "baseUrl": "http://localhost:5000"
+  }

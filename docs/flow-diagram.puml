@@ -1,0 +1,65 @@
+@startuml URL Shortener System Architecture
+
+skinparam backgroundColor white
+skinparam handwritten false
+skinparam defaultFontName sans-serif
+skinparam sequenceMessageAlign center
+skinparam BoxPadding 10
+
+actor User
+participant "URL Router" as Router
+participant "URL Shortener\nService" as ShortenerService
+participant "URL Redirect\nService" as RedirectService
+participant "URL Generator" as Generator
+database "PostgreSQL DB" as DB
+
+== URL Shortening Flow ==
+group Create Short URL
+    User -> Router: POST /api/url/shorten\n(long URL)
+    Router -> ShortenerService: Validate and process URL
+    ShortenerService -> Generator: Generate unique code
+    Generator -> DB: Check code uniqueness
+    DB --> Generator: Confirmation
+    Generator --> ShortenerService: URL code
+    ShortenerService -> DB: Store URL mapping
+    DB --> ShortenerService: Success
+    ShortenerService --> Router: Short URL
+    Router --> User: Short URL response
+end
+
+== URL Redirection Flow ==
+group Access Short URL
+    User -> Router: GET /:code
+    Router -> RedirectService: Process code
+    RedirectService -> DB: Lookup URL code
+    DB --> RedirectService: Original URL
+    RedirectService --> Router: Redirect info
+    Router --> User: HTTP 301 Redirect
+end
+
+== Database Schema ==
+note right of DB
+  **URLs Table**
+  - id (SERIAL PRIMARY KEY)
+  - url_code (VARCHAR)
+  - long_url (TEXT)
+  - short_url (TEXT)
+  - created_at (TIMESTAMP)
+end note
+
+== Error Handling ==
+group Error Scenarios
+    User -> Router: Invalid request
+    Router -> ShortenerService: Process request
+    ShortenerService --> Router: Error details
+    Router --> User: Error response
+end
+
+== Configuration Management ==
+participant "Config\nService" as Config
+
+Config -> DB: Database connection
+Config -> Router: Base URL config
+Config -> ShortenerService: Service config
+
+@enduml
