@@ -31,7 +31,7 @@ To create a short URL, make a POST request to the `/api/url/shorten` endpoint wi
 
 ## Flow Diagram
 
-![Flow Diagram](./docs/flow_diagram.svg)
+![Flow Diagram](./docs/flow-diagram.svg)
 
 ## Usage
 
